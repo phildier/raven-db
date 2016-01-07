@@ -1,15 +1,22 @@
 
 case node[:platform_family]
 when "debian"
+
 	package "mysql-server-5.5"
 
-	service "mysql" do
-		action [:enable, :start]
-	end
+	mysql_service_name = "mysql"
 
 when "rhel"
+
 	include_recipe "yum-mysql-community::mysql56"
 	package "mysql-community-server"
+
+	mysql_service_name = "mysqld"
+
+end
+
+service mysql_service_name do
+	action [:start, :enable]
 end
 
 # set password if blank
