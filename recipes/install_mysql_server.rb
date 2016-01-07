@@ -9,7 +9,7 @@ when "debian"
 
 when "rhel"
 	include_recipe "yum-mysql-community::mysql56"
-	package "mysql56-community"
+	package "mysql-community-server"
 end
 
 # set password if blank
