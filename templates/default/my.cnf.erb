@@ -1,0 +1,74 @@
+[mysqld]
+
+## General
+datadir                         = /var/lib/mysql
+tmpdir                          = /var/lib/mysql
+socket                          = /var/lib/mysql/mysql.sock
+skip-name-resolve
+sql-mode                        = NO_ENGINE_SUBSTITUTION
+#event-scheduler                = 1
+
+## Cache
+thread-cache-size               = 16
+table-open-cache                = 4096
+table-definition-cache          = 2048
+query-cache-size                = 32M 
+query-cache-limit               = 1M
+
+## Per-thread Buffers
+sort-buffer-size                = 1M
+read-buffer-size                = 128K
+read-rnd-buffer-size            = 1M
+join-buffer-size                = 1M
+
+## Temp Tables
+tmp-table-size                  = 32M 
+max-heap-table-size             = 64M 
+
+## Networking
+back-log                        = 100
+max-connections                 = 50
+max-connect-errors              = 10000
+max-allowed-packet              = 16M
+interactive-timeout             = 3600
+wait-timeout                    = 600
+
+### Storage Engines
+default-storage-engine         = InnoDB
+
+## MyISAM
+key-buffer-size                 = 64M 
+myisam-sort-buffer-size         = 128M
+
+## InnoDB
+innodb-buffer-pool-size        = 128M
+innodb-file-per-table          = 1
+innodb-open-files              = 300
+
+## Replication
+server-id                       = 1
+#log-bin                        = /var/log/mysql/bin-log
+#relay-log                      = /var/log/mysql/relay-log
+relay-log-space-limit           = 16G
+expire-logs-days                = 7
+#read-only                      = 1
+#sync-binlog                    = 1
+#log-slave-updates              = 1
+#binlog-format                  = STATEMENT
+#auto-increment-offset          = 1
+#auto-increment-increment       = 2
+
+## Logging
+#log-output                      = FILE
+slow-query-log                  = 1
+slow-query-log-file             = /var/log/mysql/slow-log
+log-slow-slave-statements
+long-query-time                 = 1
+log_queries_not_using_indexes
+
+[mysqld_safe]
+log-error                       = /var/log/mysqld.log
+open-files-limit                = 65535
+
+[mysql]
+no-auto-rehash

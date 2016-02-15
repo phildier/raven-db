@@ -15,6 +15,11 @@ when "rhel"
 
 end
 
+template "/etc/my.cnf" do
+	source "my.cnf.erb"
+	notifies :run, "bash[mysql-root-pw]", :immediately
+end
+
 service mysql_service_name do
 	action [:start, :enable]
 end

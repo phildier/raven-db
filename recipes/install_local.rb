@@ -1,5 +1,10 @@
 # download deploy keys
 key_dir = "#{node[:raven_db][:local_dir]}/deploy_keys"
+
+directory key_dir do
+	recursive true
+end
+
 raven_deploy_tarball node[:raven_db][:deploy_keys_tarball] do
 	directory key_dir
 end
