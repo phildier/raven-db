@@ -22,12 +22,18 @@ action :create do
 		notifies :run, "bash[#{bootstrap_resource_name}]", :immediately
 	end
 
+	dsn = {
+		:database => name,
+		:username => new_resource.user,
+		:password => new_resource.pass,
+		:host => new_resource.host,
+		:port => new_resource.port
+	}
+
 	bash bootstrap_resource_name do
 		action :nothing
 		cwd "#{db_path}/scripts"
-        code <<-EOH
-            php bootstrap.php '{"database":"#{name}","username":"#{new_resource.user}","password":"#{new_resource.pass}","host":"#{new_resource.host}","port":"#{new_resource.port}"}'
-        EOH
+        code "php bootstrap.php #{dsn.to_json}"
 	end
 		
 end
