@@ -34,5 +34,4 @@ raven_supervisor_program "dynamodb" do
 	directory dynamodb_dir
 	command cmd
 	numprocs 1
-	notifies :restart, "service[supervisord]", :delayed
 end
