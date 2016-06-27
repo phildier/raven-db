@@ -8,8 +8,7 @@ when "debian"
 
 when "rhel"
 
-	include_recipe "yum-mysql-community::mysql56"
-	package "mysql-community-server"
+	package "mysql56u"
 
 	mysql_service_name = "mysqld"
 

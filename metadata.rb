@@ -8,7 +8,6 @@ version          '0.1.1'
 
 depends "raven-deploy"
 depends "raven-supervisor"
-depends "yum-mysql-community"
 
 recipe "raven-db::memcached", "install and configure memcached"
 
