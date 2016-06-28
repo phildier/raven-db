@@ -26,6 +26,7 @@ end
 # set password if blank
 bash "set-mysql-root-pw" do
 	code <<-EOH
+	set -x
 	mysqladmin -u root password '#{node[:raven_db][:root_password]}'
 	mysql -u root -p'#{node[:raven_db][:root_password]}' -e 'GRANT ALL PRIVILEGES on *.* to root@127.0.0.1 identified by "#{node[:raven_db][:root_password]}"'
 	EOH
