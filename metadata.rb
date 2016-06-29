@@ -10,10 +10,19 @@ depends "raven-deploy"
 depends "raven-supervisor"
 
 recipe "raven-db::memcached", "install and configure memcached"
+recipe "raven-db::install_mysql_server", "install and configure mysql"
 
 attribute "raven_db",
 	:display_name => "Raven DB",
 	:type => "hash"
+
+attribute "raven_db/version",
+	:display_name => "Mysql version",
+	:description => "mysql version 56 or 57",
+	:required => "recommended",
+	:type => "string",
+	:recipe => ["raven-db::install_mysql_server"],
+	:default => "56"
 
 attribute "raven_db/memcached_port",
 	:display_name => "Memcached port",
