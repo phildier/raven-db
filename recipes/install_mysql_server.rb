@@ -1,38 +1,44 @@
 
-bash "mysql-makesure-uptodate" do
-	code <<-EOH
-	yum -y update mysql*
-	EOH
-end
 
 case node[:raven_db][:version]
 when "56"
 	bash "install-mysql" do
 		code <<-EOH
+		service mysqld stop
+		rm -rf /var/lib/mysql
+		yum -y update mysql*
 		echo "erase mysql*
 			install mysql56u mysql56u-libs  mysql56u-common mysql56u-server mysql56u-devel mysqlclient16
 			run" |yum -y shell
 		EOH
+		not_if "rpm -qa |grep -q ^mysql56u"
 	end
 when "57"
 	bash "install-mysql" do
 		code <<-EOH
+		service mysqld stop
+		rm -rf /var/lib/mysql
+		yum -y update mysql*
 		echo "erase mysql*
 			install mysql57u mysql57u-libs  mysql57u-common mysql57u-server mysql57u-devel mysqlclient16
 			run" |yum -y shell
 		EOH
+		not_if "rpm -qa |grep -q ^mysql57u"
 	end
-
 end
+
 
 
 template "/etc/my.cnf" do
 	source "my.cnf.erb"
+	notifies :stop, "service[mysqld]", :before
+	notifies :start, "service[mysqld]", :immediately
 end
 
 service "mysqld" do
 	action [:start, :enable]
 end
+
 
 # set password if blank
 bash "set-mysql-root-pw" do
