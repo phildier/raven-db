@@ -10,6 +10,7 @@ depends "raven-deploy"
 depends "raven-supervisor"
 
 recipe "raven-db::memcached", "install and configure memcached"
+recipe "raven-db::install_mysql_server", "install and configure mysql"
 
 attribute "raven_db",
 	:display_name => "Raven DB",
@@ -54,4 +55,11 @@ attribute "raven_db/memcached_socket",
 	:type => "string",
 	:recipes => ["raven-db::memcached"],
 	:default => ""
+
+attribute "raven_db/root_password",
+	:display_name => "mysql root password",
+	:description => "password for root user",
+	:required => "recommended",
+	:type => "string",
+	:recipes => ["raven-db::install_mysql_server"],
 
