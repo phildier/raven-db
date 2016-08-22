@@ -61,5 +61,5 @@ attribute "raven_db/root_password",
 	:description => "password for root user",
 	:required => "recommended",
 	:type => "string",
-	:recipes => ["raven-db::install_mysql_server"],
+	:recipes => ["raven-db::install_mysql_server"]
 
