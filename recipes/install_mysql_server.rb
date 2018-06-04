@@ -8,9 +8,13 @@ when "debian"
 
 when "rhel"
 
-	package "mysql56u"
-
-	mysql_service_name = "mysqld"
+	if node['platform_version'].to_f > 7.0
+		package "MySQL-server"
+		mysql_service_name = "mysql"
+	else
+		package "mysql56u"
+		mysql_service_name = "mysqld"
+	end
 
 end
 
