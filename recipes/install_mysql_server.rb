@@ -10,6 +10,7 @@ when "rhel"
 
 	if node['platform_version'].to_f > 7.0
 		package "MySQL-server"
+		package "MySQL-client"
 		mysql_service_name = "mysql"
 	else
 		package "mysql56u"
