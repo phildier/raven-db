@@ -45,6 +45,7 @@ bash "set-mysql-root-pw-installer" do
 	oldpass=`grep password /root/.mysql_secret |tail -1 |awk '{print $NF}'`
 	mysqladmin -u root -p$oldpass password '#{node[:raven_db][:root_password]}'
 	mysql -u root -p'#{node[:raven_db][:root_password]}' -e 'GRANT ALL PRIVILEGES on *.* to root@127.0.0.1 identified by "#{node[:raven_db][:root_password]}"'
+	rm -f /root/.mysql_secret
 	EOH
 	only_if  { ::File.exist?('/root/.mysql_secret') }
 end
