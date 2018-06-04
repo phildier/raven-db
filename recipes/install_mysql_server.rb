@@ -38,6 +38,18 @@ bash "set-mysql-root-pw" do
 	only_if "mysql -h 127.0.0.1 -u root -e 'show databases' 2>/dev/null"
 end
 
+# set password if set by installer
+bash "set-mysql-root-pw-installer" do
+	code <<-EOH
+	set -x
+	oldpass=`grep password /root/.mysql_secret |tail -1 |awk '{print $NF}'`
+	mysqladmin -u root -p$oldpass password '#{node[:raven_db][:root_password]}'
+	mysql -u root -p'#{node[:raven_db][:root_password]}' -e 'GRANT ALL PRIVILEGES on *.* to root@127.0.0.1 identified by "#{node[:raven_db][:root_password]}"'
+	EOH
+	only_if  { ::File.exist?('/root/.mysql_secret') }
+end
+
+
 # set up mysql timezones table
 bash "set-timezone-info" do
 	code "mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -h 127.0.0.1 -u root -p#{node[:raven_db][:root_password]} mysql"
